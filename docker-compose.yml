@@ -1,0 +1,19 @@
+version: "3"
+
+volumes:
+  mvc-data:
+
+networks:
+  mvc-frontend:
+  mvc-backend:
+
+services:
+  mysql:
+    image: "mysql"
+    volumes:
+      - mvc-data:/var/lib/mysql
+    networks:
+      - mvc-backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=numsey
+      - bind-address=0.0.0.0
