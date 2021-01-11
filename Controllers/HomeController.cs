@@ -15,13 +15,12 @@ namespace mvc1.Controllers
     {
         private IRepository repository;
         private string message;
-
         public HomeController(IRepository repo, IConfiguration config)
         {
             repository = repo;
-            message = !string.IsNullOrEmpty(config["DBHOST"]) ? $"CONTAINER HOST {config["DBHOST"]}" : "ASP NET CORE MVC - DOCKER";
+            // HOSTNAME é uma variavel de ambiente do DOCKER
+            message = !string.IsNullOrEmpty(config["HOSTNAME"]) ? $"CONTAINER ID: {config["HOSTNAME"]}" : "ASP NET CORE MVC - DOCKER";
         }
-
         public IActionResult Index()
         {
             ViewBag.Message = message;
