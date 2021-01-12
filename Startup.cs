@@ -20,19 +20,15 @@ namespace mvc1
             Configuration = configuration;
         }
         public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
             var host = Configuration["DBHOST"] ?? "localhost";
             var port = Configuration["DBPORT"] ?? "3306";
             var password = Configuration["DBPASSWORD"] ?? "numsey";
-
             var connectionString = $"server={host};userid=root;pwd={password};port={port};database=produtosdb";
-
             services.AddDbContext<AppDbContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             );
-
             services.AddTransient<IRepository, ProdutoRepository>();
             services.AddControllersWithViews();
         }
@@ -50,13 +46,10 @@ namespace mvc1
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            PopulaDb.IncluiDadosDB(app);
-
+            // Removido e substituido por um script sql
+            // PopulaDb.IncluiDadosDB(app);
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

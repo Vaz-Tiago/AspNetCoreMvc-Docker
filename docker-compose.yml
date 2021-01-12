@@ -2,18 +2,30 @@ version: "3"
 
 volumes:
   mvc-data:
-
 networks:
   mvc-frontend:
   mvc-backend:
-
 services:
   mysql:
     image: "mysql"
     volumes:
       - mvc-data:/var/lib/mysql
+      - ./_MySql_Init_DB:/docker-entrypoint-initdb.d
     networks:
       - mvc-backend
     environment:
       - MYSQL_ROOT_PASSWORD=numsey
       - bind-address=0.0.0.0
+  mvc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - mvc-backend
+      - mvc-frontend
+    ports:
+      - 5000:80
+    environment:
+      - DBHOST=mysql
+    depends_on:
+      - mysql
